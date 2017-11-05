@@ -1,28 +1,28 @@
 'use strict';
 
 module.exports = function countSameElements(collection) {
-    var array = new Array();
+    var result = [];
+
     for (var i = 0; i < collection.length; i++) {
-            array =isExist(collection[i],array);
+        result = isExist(collection[i], result);
     }
-    return array;
 
-    function isExist(element, array) {
-          var keycount= element.split("-");
-          var key =keycount.length==1?element:keycount[0];
-          var count = keycount.length==1?1:keycount[1];
-            for (var i = 0; i < array.length; i++) {
-            if (array[i].key==key) {
-              array[i].count +=parseInt(count);
-              return array;
+    return result;
+};
+function isExist(element, result) {
+    var keyCount = element.split("-");
+    var key = keyCount.length == 1 ? element : keyCount[0];
+    var count = keyCount.length == 1 ? 1 : keyCount[1];
 
-            }
+    for (var i = 0; i < result.length; i++) {
+        if (result[i].key == key) {
+            result[i].count += parseInt(count);
+
+            return result;
         }
-        array.push({"key":key,"count":parseInt(count)});
-        return array;
     }
-
-
+    result.push({"key": key, "count": parseInt(count)});
+    return result;
 }
 
 //     var result = [];
@@ -44,5 +44,6 @@ module.exports = function countSameElements(collection) {
 //
 //     return result;
 // }
+
 
 

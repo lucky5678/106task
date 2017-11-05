@@ -1,39 +1,41 @@
 'use strict';
 
 module.exports = function createUpdatedCollection(collectionA, objectB) {
-    var array = new Array();
+    var result = [];
+
     for (var i = 0; i < collectionA.length; i++) {
-        array = isExist1(collectionA[i], array);
+        result = Exist(collectionA[i], result);
     }
+    filter(result, objectB);
 
-    for(var i=0;i<array.length;i++){
-        if(isExsit(array[i].key,objectB.value)) {
-            array[i].count -=parseInt((array[i].count/3));
+    return result;
+};
+function Exist(element, result) {
+    var keyCount = element.split("-");
+    var key = keyCount.length == 1 ? element : keyCount[0];
+    var count = keyCount.length == 1 ? 1 : keyCount[1];
+    for (var i = 0; i < result.length; i++) {
+        if (result[i].key == key) {
+            result[i].count += parseInt(count);
+
+            return result;
         }
     }
-    return array;
-
-
+    result.push({"key": key, "count": parseInt(count)});
+    return result;
 }
-    function isExist1(element, array) {
-        var keycount= element.split("-");
-        var key =keycount.length==1?element:keycount[0];
-        var count = keycount.length==1?1:keycount[1];
-        for (var i = 0; i < array.length; i++) {
-            if (array[i].key==key) {
-                array[i].count +=parseInt(count);
-                return array;
-
-            }
-        }
-        array.push({"key":key,"count":parseInt(count)});
-        return array;
+function isExist(element, result) {
+    for (var i = 0; i < result.length; i++) {
+        if (element == result[i])
+            return true;
     }
-        function isExsit(element,array) {
-            for(var  i=0;i<array.length;i++){
-                if (element==array[i])
-                  return true;
+}
+function filter(result, objectB) {
+    for (var i = 0; i < result.length; i++) {
+        if (isExist(result[i].key, objectB.value)) {
+            result[i].count -= parseInt((result[i].count / 3));
         }
+    }
 }
 
 
